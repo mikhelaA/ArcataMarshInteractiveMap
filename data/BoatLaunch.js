@@ -1,0 +1,1 @@
+var Boat = {"type":"FeatureCollection","features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[-124.09870126475099,40.856345399858803]},"properties":{"OBJECTID":1,"Name":"Boat Launch"}}]}

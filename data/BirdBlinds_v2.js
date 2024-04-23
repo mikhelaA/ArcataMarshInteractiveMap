@@ -1,0 +1,1 @@
+var BBv2 = {"type":"FeatureCollection","crs":{"type":"name","properties":{"name":"EPSG:2225"}},"features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[5981845.1176998913,2204612.4447558969]},"properties":{"OBJECTID":1,"Name":"Bird Blind"}}]}

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="./data/ArcataMarshBoundary.js"></script>
+    <script src="./data/SimplifiedWaterFeaturesv2.js"></script>
+    <script src="./data/Trails.js"></script>
+    <script src="./data/Amphitheater_v2.js"></script>
+    <script src="./data/BirdBlinds_v3.js"></script>
+    <script src="./data/BoatLaunch_v2.js"></script>
+    <script src="./data/DogPoopBags_v2.js"></script>    
+    <script src="./data/InterpretiveCenter_v4.js"></script>
+    <script src="./data/Parking_v2.js"></script>
+    <script src="./data/Restroom_v3.js"></script>
+    <script src="./data/TrailHead_v2.js"></script>
+<head>
+    <link href="https://nrs-projects.humboldt.edu/~st10/styles/normalize.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Felipa' rel='stylesheet'>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        #map{position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
+
+    .navbar {
+        background-color: rgba(144, 158, 90, .85);
+        left: 0.5%;
+        top: 1%;
+        bottom: 25%;
+        position: fixed;
+        height: 98%;
+        width: 20%;
+        z-index: 10000;
+        border-radius: 10px 10px 10px 10px;
+        overflow-y: auto;
+    }
+
+    .navbarright {
+        background-color: rgba(144, 158, 90, .85);
+        right: 1%;
+        top: 20%;
+        position: fixed;
+        height: 40%;
+        width: 15%;
+        z-index: 10000;
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    .h1 {
+        font-family: 'Felipa';
+        text-align: center;
+        font-kerning: normal;
+        text-shadow: 2px 2px 6px #cff0c0;
+
+    }
+
+    .h3 {
+        font-family: 'Arial Narrow';
+        text-align: center;
+    }
+
+    .p {
+        text-align: left;
+        font-family: 'Raleway';
+        line-height: 1.5;
+        width: 90%;
+        margin: 1em auto;
+    }
+
+    .navbar-brand {
+        display: block; 
+        width: 100%;
+        opacity: 0.85;
+    }
+
+    .navbar-image {
+        display: block;
+        margin: auto;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #909E5A;
+    }
+
+    .navbar-legend {
+        opacity: 1;
+    }
+
+    .leaflet-popup-content-wrapper {
+        text-align: center;
+        border-radius: 6;
+        background: rgba(203, 207, 188, 0.9);
+        color: black;
+        }
+    .leaflet-popup-close-button {
+        width: 2px;
+        height: 2px;
+    }
+    .leaflet-popup-content {
+        margin: 5px;
+    }
+    .leaflet-popup-tip {
+        background: rgba(203, 207, 188, 0.95);
+    }
+    .leaflet-container {
+        font-family:'Raleway';
+        }
+    .leaflet-popup-close-button {
+            display: none;
+        }
+    .leaflet-control-scale-line {
+        border: 0px solid #000000;
+        border-top: none;
+        line-height: 1.1;
+        padding: 2px 5px 1px;
+        white-space: nowrap;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: rgba(0, 0, 0, 0.4);
+        text-shadow: 1px 1px 'black';
+        color: #000000;
+        left: 30%;
+    }
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcata Marsh and Wildlife Sanctuary Web Map</title>
+</head>
+<body>
+     
+      <div class="navbar">
+        <h3 class = "h3">Welcome to the</h3>
+        <h1 class = "h1">Arcata Marsh & Wildlife Sanctuary</h1>
+        <p class = "p">The Arcata Marsh and Wildlife Sanctuary is home to the City of Arcata’s innovative wastewater treatment facility. The sanctuary is 307 acres, including freshwater marshes, salt marsh, tidal sloughs, grassy uplands, mudflats, brackish marsh, approximately 5 miles of walking and biking paths and an Interpretive Center. By integrating conventional wastewater treatment with the natural processes of constructed wetlands, Arcata has succeeded in turning wastewater into a resource.</p>
+        <p class = "p">Located at the north end of Humboldt Bay, the sanctuary is situated along the Pacific Flyway, a major migratory route for thousands of birds that breed in the far north and winter in California, Mexico and Central and South America. The Arcata Marsh and Wildlife Sanctuary has probably the highest bird populated coastal site between Bodega Harbor and Washington, with literally thousands of birding visitors annually and organized bird walks held at least weekly year-round. The Marsh has hosted over 300 bird species.</p>
+        <a class="navbar-brand" href="#">
+            <img class="navbar-image" src="./data/cityofarcata.png" alt="img" style="max-width: 200px; max-height: 200px;"></img> </a>
+        </div>
+        <div class="navbarright">
+            <a class="navbar-legend" href="#">
+                <img src="./data/amphitheater-2.png" alt="amphitheater" style="max-width: 37px; max-height: 37px;"></img>
+            </a>
+        </div>
+    
+   
+  
+    
+    <div id = "map"></div>
+    <script>
+        var map = L.map('map', {
+            zoomControl: true
+        }).setView([40.85618440839442, -124.09503734974983], 16) 
+
+        map.zoomControl.setPosition('bottomright');
+        
+        var osm = L.tileLayer('https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=qJxHXOlhWx77elEFVUdQ',{
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+            maxZoom: 18,
+            minZoom: 15,
+        }).addTo(map);
+
+        var CartoDBVoyagerNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 18,
+            minZoom: 15,
+        });
+
+        L.control.scale().addTo(map);
+
+        var trails = L.geoJSON(Trails, {
+           style:{
+                weight: 2,
+                color: '#FCF724',
+                opacity: 1
+            } 
+        }).addTo(map)
+            
+        var Boundary = L.geoJSON(ArcataMarshBoundary, {
+            
+            style:{
+                fillColor: 'red',
+                fillOpacity:0,
+                color: '#85E855',
+                opacity: .5,
+                weight: 3.5
+            }
+        } ).addTo(map)
+
+        var Amphi = L.geoJSON(Amphitheaterv2, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/amphitheater-2.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map)
+
+        var BB = L.geoJSON(BBv3, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/binoculars.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map)
+
+        var BL = L.geoJSON(BoatLaunchv2, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/slipway.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map)
+
+        var DogPoop = L.geoJSON(DPBv2, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/pets.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map)
+
+        var IC = L.geoJSON(ICv4, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/information.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map).bindPopup("The Arcata Marsh Interpretive Center is open Monday from 1:00 - 5:00 PM on Mondays and 9:00 AM - 5:00 PM Tuesday-Saturday. Phone number: 707-826-2359");
+
+        var Park = L.geoJSON(Parkingv2, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/parking.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }).addTo(map)
+
+        var Restroom = L.geoJSON(Restroomv3, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/toilets.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }). addTo(map)
+
+        var TrailHead = L.geoJSON(TrailHeadv2, {
+            pointToLayer: function(feature, latlng) {
+                var smallIcon = new L.Icon({
+                    iconUrl: 'data/hiking2.png',
+                    iconAnchor: [16, 37],
+                });
+                return L.marker(latlng, {icon: smallIcon});
+            }
+        }). addTo(map)
+
+        //Leaflet layer control
+        var baseMaps = {
+            'Open Street Map Imagery': osm,
+            'Voyager': CartoDBVoyagerNoLabels
+        }
+
+
+        var overlays = {
+            "Trails": trails,
+            "Arcata Marsh and Wildlife Sanctuary Boundary": Boundary,
+            "Amphitheater": Amphi,
+            "Bird Blinds": BB,
+            "Boat Launch": BL,
+            "Dog Poop Bags": DogPoop,
+            "Staffed Interpretive Center": IC,
+            "Parking": Park,
+            "Restroom": Restroom,
+            "Trail Head": TrailHead
+            
+        }    
+
+
+        var allLayers = [
+            Amphi,
+            BB,
+            BL,
+            DogPoop,
+            IC,
+            Park,
+            Restroom,
+            TrailHead
+            ];
+
+        L.control.layers(baseMaps, overlays).addTo(map);
+
+     
+
+
+        var lastPolyName = null
+        var lastPolygon = null
+      
+        var Waters = L.geoJSON(SimplifiedWaterFeaturesv2, {
+            onEachFeature: function(feature,layer){
+                
+                layer.bindPopup(feature.properties.Name);
+                layer.on('mouseover', function (e){
+                    if (lastPolygon != null && lastPolygon != this) {
+                        lastPolygon.bindPopup(lastPolyName);
+                        lastPolygon = null;
+                    };
+
+                    if (lastPolygon == null) {
+                        lastPolygon = this;
+                        lastPolyName = feature.properties.Name;
+                    };
+
+                    this.openPopup();
+                    e.target.setStyle({
+                        fillOpacity:0.1,
+                        fillColor: '#e0f4ff'
+                    });
+                });
+                layer.on('mouseout', function(e) {
+                    // this.closePopup()
+                    // this.bindPopup(feature.properties.Name)
+                    e.target.setStyle({
+                    fillOpacity:0
+                    });
+                });
+                layer.on('click', function(e) {
+                    this.bindPopup("<h1>" + feature.properties.Name + "</h1>" + feature.properties.Description)
+                    this.openPopup()
+                });
+            },
+            style:{
+                fillColor: 'red',
+                fillOpacity:0,
+                color: '#1c5963',
+                opacity: 0,
+                weight: 1
+                
+            }
+        }).addTo(map)
+
+
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1 @@
+var Restrooms = {"type":"FeatureCollection","features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[-124.09053863579484,40.857924264499751]},"properties":{"OBJECTID":1,"Name":"Staffed Interpretive Center"}}]}

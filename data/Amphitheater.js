@@ -1,0 +1,1 @@
+var Amphitheater = {"type":"FeatureCollection","features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[-124.0911708014243,40.858171394711299]},"properties":{"OBJECTID":1,"Name":"Amphitheater"}}]}
