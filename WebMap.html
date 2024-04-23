@@ -12,7 +12,7 @@
     <script src="./data/Restroom_v3.js"></script>
     <script src="./data/TrailHead_v2.js"></script>
 <head>
-    <link href="https://nrs-projects.humboldt.edu/~st10/styles/normalize.css" type="text/css" rel="stylesheet" />
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Felipa' rel='stylesheet'>
@@ -42,6 +42,7 @@
         width: 15%;
         z-index: 10000;
         border-radius: 10px 10px 10px 10px;
+        overflow-y: auto;
     }
 
     .h1 {
@@ -73,7 +74,8 @@
 
     .navbar-image {
         display: block;
-        margin: auto;
+        margin: 1em auto;
+
     }
 
     ::-webkit-scrollbar-thumb {
@@ -82,6 +84,24 @@
 
     .navbar-legend {
         opacity: 1;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        font-family: 'Raleway';
+        line-height: 1;
+        font-size: 14px;
+        margin: 8px;
+    }
+
+    .legend-row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .legend-icon {
+        display: block;
+        margin: auto 0;
     }
 
     .leaflet-popup-content-wrapper {
@@ -136,9 +156,40 @@
             <img class="navbar-image" src="./data/cityofarcata.png" alt="img" style="max-width: 150px; max-height: 150px;"></img> </a>
         </div>
         <div class="navbarright">
-            <a class="navbar-legend" href="#">
-                <img src="./data/amphitheater-2.png" alt="amphitheater" style="max-width: 37px; max-height: 37px;"></img>
-            </a>
+            <div class="navbar-legend">
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/amphitheater-2.png" alt="amphitheater" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Amphitheater</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/binoculars.png" alt="bird blinds" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Bird Blinds</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/slipway.png" alt="boat launch" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Boat Launch</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/pets.png" alt="dog poop bags" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Dog Poop Bags</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/information.png" alt="staffed information center" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Arcata Marsh Interpretive Center</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/parking.png" alt="parking" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Parking Areas</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/toilets.png" alt="restroom" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Restroom</p>
+                </div>
+                <div class="legend-row">
+                    <img class="legend-icon" src="./data/hiking2.png" alt="trail heads" style="max-width: 37px; max-height: 35px;"></img>
+                    <p>Trail Heads</p>
+                </div>
+            </div>
         </div>
     
    
@@ -148,7 +199,7 @@
     <script>
         var map = L.map('map', {
             zoomControl: true
-        }).setView([40.85618440839442, -124.09503734974983], 14) 
+        }).setView([40.85618440839442, -124.09503734974983], 15) 
 
         map.zoomControl.setPosition('bottomright');
         
